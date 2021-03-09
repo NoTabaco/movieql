@@ -1,24 +1,17 @@
-export const people = [
-  {
-    id: 1,
-    name: "A",
-    age: 100,
-    gender: "M",
-  },
-  {
-    id: 2,
-    name: "B",
-    age: 3,
-    gender: "M",
-  },
-  {
-    id: 3,
-    name: "C",
-    age: 1,
-    gender: "M",
-  },
-];
+import axios from "axios";
 
-export const getById = (id: number) => {
-  return people.filter((person) => id === person.id);
+const API_URL = "https://yts.mx/api/v2/list_movies.json?";
+
+export const getMovies = async (limit?: number, rating?: number) => {
+  let REQUEST_URL = API_URL;
+  if (limit > 0) {
+    REQUEST_URL += `limit=${limit}`;
+  }
+  if (rating >= 0) {
+    REQUEST_URL += `&minimum_rating=${rating}`;
+  }
+  return await axios
+    .get(REQUEST_URL)
+    .then((res) => res.data.data.movies)
+    .catch((error) => console.log(error));
 };
